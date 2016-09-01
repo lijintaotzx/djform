@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{%block title%}Djforums首页{%endblock%}
+<!--显示板块分类-->
+{% block content %}
+</p>
+</p>
+<div class="box1" >
+    <div class="cell">
+	{%if user.is_superuser%}
+	<div class="fr"><a id="addcate">添加分类</a>
+	&nbsp;&nbsp;
+	<a href="/useradmin/defaultimg">编辑随机头像</a></div>
+	{% endif %}
+	<span class="fad"><strong>Djforums</strong> / 节点导航</span></div> 
+	<div class="cell"><table cellpadding="0" cellspacing="0" border="0"><tbody><tr><td align="right" width="70"><span class="fad">板块分类</span></td>
+		<td style="line-height:200%; padding-left:10px;" id="cate1">
+		{%for a in cates%}
+			<a href="/cate/{{a.id}}" style="font-size:14px" class="c" data="c">{{a.name}}</a>&nbsp;&nbsp;
+		{%endfor%}
+		</td></tr></tbody></table>
+	</div>
+</div><!--box-->
+{% endblock %}
+<!-------------------------------------------------------------------------------------------------------------------------->
+<!--最新帖子-->
+{% block content1%}
+{%for r in top12%}
+<div class="box">
+<div id="r_1184944" class="cell">
+
+    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tbody><tr>
+            <td width="48" valign="top" align="center"><img src="{{MEDIA_URL}}{{r.p.get_photo}}" class="avatar" border="0" align="default"></td>
+            <td width="10" valign="top"></td>
+            <td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">{{r.num_replys}}</span></div>
+                <div class="sep3"></div>
+                <strong><a href="/topic/{{r.id}}" class="dark">【{{r.category.name}}】&nbsp; &nbsp;{{r.subject}}</a></strong>&nbsp; &nbsp;<span class="fade small">{{r.created}}</span>  &nbsp; <span class="small fade">♥ 1</span>
+                <div class="sep5"></div>
+                <div class="reply_content">{{r.author}}&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;<span>最后的回复来自: {{r.author}}</span></div> 
+            </td>
+        </tr>
+    </tbody></table>
+</div>
+</div>
+{%endfor%}
+{%endblock%}
+
+<!------------------------------------------------------------------------------------------------------------------>
+{% block content2%}
+<!--添加分类ajax-->
+
+$(document).ready(function(){
+
+	
+	$("#addcate").click(function(){
+		$("#CATE").show();
+		$("#CATE1").show();
+	});
+	$('#sendcate').click(function(){
+		var newcate = $('#newcate').val();
+		console.log(newcate);
+		$('.backgroundbox').hide();
+		$('.popbox').hide();
+		
+		$.ajax({
+			type:"POST",
+			url:"/addcate",
+			dataType:"json",
+			data:{name:newcate,csrfmiddlewaretoken:"{{csrf_token}}",}
+			})
+			.done(function(msg){
+				alert("Data Saved: " + msg.code);
+				if(msg.code == 'ok')
+				{$('#cate1').append('<a href="/cate/'+msg.id+'" style="font-size:14px">'+newcate+'</a>&nbsp;&nbsp;')}
+			});
+			
+	});
+	
+	
+	$("#close").click(function(){
+		$(".backgroundbox").hide();
+		$(".popbox").hide();
+	});
+});
+<!----------------------------------------------------------------------->
+<!--animate-->
+/*
+$(document).ready(function(){
+
+        $("a").mouseover(function(){
+                var x = "bounceIn";
+                $(this).removeClass().addClass(x + ' animated').one('webkitAnimationEnd', function(){
+                        $(this).removeClass();
+                });
+
+        });
+
+});
+*/
+
+$(document).ready(function(){
+
+        $("a[data!=c]").mouseover(function(){
+                var x = "bounceIn";
+                $(this).addClass(x + ' animated').one('webkitAnimationEnd', function(){
+                        $(this).removeClass(x + ' animated');
+                });
+
+        });
+
+});
+
+$(document).ready(function(){
+
+        $(".c").mouseover(function(){
+                var x = "bounce";
+                $(this).addClass(x + ' animated').one('webkitAnimationEnd', function(){
+                        $(this).removeClass(x + ' animated');
+                });
+
+        });
+
+});
+
+{%endblock%}

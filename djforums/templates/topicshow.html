@@ -1,0 +1,102 @@
+<html lang="zh-CN">
+<head>
+<mota charset="UTF-8">
+ <link rel="stylesheet" type="text/css" media="screen" href="/static/css/v2ex.css">
+ <link rel="stylesheet" type="text/css" media="screen" href="/static/css/uliweb.css">
+ <link rel="stylesheet" type="text/css" media="screen" href="/static/css/djforums.css">
+ <script src="/static/js/w3school.js"></script>
+</head>
+
+<body>
+<div class="content">
+    <div id="Top">
+        <div class="content">
+            <div style="padding-top:6px;padding-right:10px; padding-left:10px;">
+            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tbody><tr>
+                    <!--td width="120" align="left"><a href="/" name="top" title="way to explore"><img src="//cdn.v2ex.com/site/logo@2x.png?m=1346064962" border="0" align="default" alt="V2EX" width="94" height="30"></a></td-->
+					<td style="font-family:微软雅黑; font-size:20px; font-weight:bold; color:gray;padding-bottom: 14; padding-left:5;">Django开发论坛</td>
+                    <td width="auto" align="left">
+                        <div id="Search"><form onsubmit="return dispatch()"><div style="width: 276px; height: 28px; background-size: 276px 28px; background-image: url('http://www.v2ex.com/static/img/qbar_light@2x.png'); background-repeat: no-repeat; display: inline-block;"><input type="text" maxlength="40" name="q" id="q" value=""></div></form></div>
+                    </td>
+                    <td width="320" align="right" style="padding-bottom:10px;"><a href="/" class="top">首页</a>&nbsp;&nbsp;&nbsp;
+						{% if user.is_authenticated %}						
+						<image href="/useradmin" src="{{MEDIA_URL}}{{a.get_photo}}" style="width:48px; height:38px;">&nbsp;&nbsp;&nbsp;<a href="/useradmin" id="showmenu">{{user.username}}</a>&nbsp;&nbsp;&nbsp;<a href="/accounts/logout/?next=/">注销</a> 
+						{% else %}
+						<a id="reg" class="top">注册</a>&nbsp;&nbsp;&nbsp;<a id="log">登录</a>
+						{% endif %}
+					</td>
+					
+						</tr>
+				</tbody>
+			</table>
+            </div>
+        </div>
+    </div>
+	</p>
+<!--帖子信息-->
+<div class="box1">
+    <div class="header"><div class="fr"><a href="/member/wumao"><img src="{{MEDIA_URL}}{{t.p.get_photo}}" class="avatar" border="0" align="default"></a></div>
+	<a href="/">Djforums</a> <span class="chevron">&nbsp;›&nbsp;</span> <a href="/cate/{{t.category.id}}">{{t.category.name}}</a>
+    <div class="sep10"></div>
+    <h1>{{t.subject}}</h1>
+    <div id="topic_120351_votes" class="votes">
+<a href="javascript:" onclick="upVoteTopic(120351);" class="vote"><li class="icon-chevron-up"></li></a> &nbsp;<a href="javascript:" onclick="downVoteTopic(120351);" class="vote"><li class="icon-chevron-down"></li></a></div> &nbsp; <small class="gray"><a href="/member/wumao">{{t.author}}</a> · {{t.created|timesince}} · {{t.num_views}} 次点击</small>
+    </div>
+    
+<!--帖子内容-->
+    
+    <div class="cell">
+        <div class="topic_content">{{t.content|safe}}</div>
+    </div>
+<!---->
+<div class="topic_buttons">{% if user.is_t.author %}<a href="#" class="tb">删除</a>{% endif %}<a href="/favorite/topic/126353?t=fpyrfitsrwntnnnnebebdcwknilsfmmu" class="tb">加入收藏</a> &nbsp;<a href="#;" onclick="window.open('http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http%3A%2F%2Fwww.oicq88.com%2F%230-qzone-1-14731-d020d2d2a4e8d1a374a433f596ad1440&title=QQ%E7%BD%91%E5%90%8D%20QQ%E7%BD%91%E5%90%8D%E5%A4%A7%E5%85%A8%20QQ%E4%B8%AA%E6%80%A7%E7%BD%91%E5%90%8D%20%E5%A5%BD%E5%90%AC%E7%9A%84%E7%BD%91%E5%90%8D%20%E6%89%A3%E6%89%A3%E7%BD%91%E5%90%8D%20%E5%A5%BD%E7%9A%84%E7%BD%91%E5%90%8D&desc=&summary=&site=', '_blank', 'width=550,height=370'); recordOutboundLink(this, 'Share', 'twitter.com');" class="tb">转发到QQ空间</a> &nbsp;<a href="#;" onclick="window.open('http://service.weibo.com/share/share.php?url=http://www.v2ex.com/t/126353?r\u003Dzhuhy&amp;title=V2EX%20-%20能建一个 OpenWrt 节点？', '_blank', 'width=550,height=370'); recordOutboundLink(this, 'Share', 'weibo.com');" class="tb">转发到新浪微博</a> &nbsp;</div>
+<!---->
+    
+    
+</div>
+<div class="sep20"></div>
+{%for r in reply%}
+<div class="box1">
+<div id="r_1184944" class="cell">
+
+    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tbody><tr>                      			
+            <td width="48" valign="top" align="center"><img src="{{MEDIA_URL}}{{r.p.get_photo}}" class="avatar" border="0" align="default"></td>
+            <td width="10" valign="top"></td>
+            <td width="auto" valign="top" align="left"><div class="fr"> &nbsp; &nbsp; <span class="no">2</span></div>
+                <div class="sep3"></div>
+                <strong><a href="/member/hsu" class="dark">{{r.author}}</a></strong>&nbsp; &nbsp;<span class="fade small">{{r.created}}</span>  &nbsp; <span class="small fade">♥ 1</span>
+                <div class="sep5"></div>
+                <div class="reply_content">{{r.content}}</div>
+            </td>
+        </tr>
+    </tbody></table>
+</div>
+</div>
+{%endfor%}
+<div class="box1">
+    <div class="cell"><div class="fr"><a href="#"><strong>↑</strong> 回到顶部</a></div>
+        添加一条新回复
+    </div>
+    <div class="cell"><form method="post" action="/topic/{{t.id}}/replytopic">
+		{%csrf_token%}
+        <textarea placeholder="请尽量让自己的回复能够对别人有帮助" name="content" maxlength="10000" class="mll" id="reply_content" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 112px;"></textarea>
+        <div class="sep10"></div>
+        <input type="hidden" value="34863" name="once">
+        <button type="submit" value="回复" class="super normal button">回复</button>
+        </form>
+    </div>
+    <div class="inner">
+        <div class="fr"><a href="/">Django首页</a></div>
+        &nbsp;
+    </div>
+</div> 
+
+
+</div>
+
+
+</body>
+
+</html>

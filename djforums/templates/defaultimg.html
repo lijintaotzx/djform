@@ -1,0 +1,80 @@
+<head>
+<mota charset="UTF-8">
+ <link rel="stylesheet" type="text/css" media="screen" href="http://chinaswift.me/static/bootstrap/2.2.0/bootstrap.min.css?ver=2:9">
+ <link rel="stylesheet" type="text/css" media="screen" href="http://v2ex.com/css/shared.css?v=3.3.2">
+ <link rel="stylesheet" type="text/css" media="screen" href="http://uliweb.cpython.org/static/bootstrap/2.2.0/bootstrap.min.css?ver=2:9">
+ <link rel="stylesheet" type="text/css" media="screen" href="/static/css/djforums.css">
+ <script src="http://www.w3school.com.cn/jquery/jquery-1.11.1.min.js"></script>
+</head>
+
+
+<body>
+<div class="content">
+    <div id="Top">
+        <div class="content">
+            <div style="padding-top: 6px;">
+            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tbody><tr>
+                    <!--td width="120" align="left"><a href="/" name="top" title="way to explore"><img src="//cdn.v2ex.com/site/logo@2x.png?m=1346064962" border="0" align="default" alt="V2EX" width="94" height="30"></a></td-->
+					<td style="font-family:微软雅黑; font-size:20px; font-weight:bold; text-align:center; color:gray;">Django开发论坛</td>
+                    <td width="auto" align="left">
+                        <div id="Search"><form onsubmit="return dispatch()"><div style="width: 276px; height: 28px; background-size: 276px 28px; background-image: url('http://www.v2ex.com/static/img/qbar_light@2x.png'); background-repeat: no-repeat; display: inline-block;"><input type="text" maxlength="40" name="q" id="q" value=""></div></form></div>
+                    </td>
+                    <td width="520" align="right" style="padding-top: 2px;"><a href="/" class="top">首页</a>&nbsp;&nbsp;&nbsp;
+						{% if user.is_authenticated %}						
+						<a href="/useradmin">{{user.username}}</a>&nbsp;&nbsp;&nbsp;<a href="/accounts/logout/?next=/">注销</a> 
+						{% else %}
+						<a href="accounts/register/" class="top">注册</a>&nbsp;&nbsp;&nbsp;<a id="reg">登录</a>
+						{% endif %}
+					</td>
+					
+						</tr>
+				</tbody>
+			</table>
+            </div>
+        </div>
+    </div>
+<div class="sep20"></div>
+
+<div class="content">
+<div class="box1">
+<a id="modify_photo" title="点击修改头像"><img src="{{MEDIA_URL}}{{p.get_photo}}" id="photo" class="portrait"></a>
+{%for x in p%}
+<!--img src="{{MEDIA_URL}}{{x.img}}"-->
+<img src="{{MEDIA_URL}}{{x.img}}" class="avatar" border="0" align="default"><a href="/useradmin/deletedefaultimg">删除</a>
+{%endfor%}
+<p>单击更改头像</p>
+</div>
+</div>
+        
+
+
+<div class="backgroundbox" style="display:none;">
+</div>
+<div class="popbox" style="display:none; width:300px; height:200px;">
+	<a class="close" id="close">X</a>
+	<div class="box-body">
+    <form action="/useradmin/updateimg" enctype="multipart/form-data" method="POST">
+		{%csrf_token%}
+        <input id="field_image" name="img" type="file">
+		<input name="desc" type="hidden" value="avatar">
+        <button class="btn btn-primary">发送</button>
+    </form>
+</div>
+</div>
+
+</div>
+</body>
+<script>
+$(document).ready(function(){
+	$("#modify_photo").click(function(){
+		$(".backgroundbox").show();
+		$(".popbox").show();
+	});
+	
+	$("#close").click(function(){
+		$(".backgroundbox").hide();
+		$(".popbox").hide();
+	});
+});
+</script>

@@ -1,0 +1,2 @@
+django==1.4.9
+$ easy_install --find-links http://www.pythonware.com/products/pil/ Imaging

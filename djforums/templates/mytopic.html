@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title%}我的帖子{%endblock%}
+
+{% block content%}
+<div class="inner">
+<a style="font-size:18px;"href="/">Django</a><span class="chevron">&nbsp;›&nbsp;</span><a style="font-size:16px;">{{cate.name}}</a><span class="inner"style="font-size:18px;">主题管理</span>	
+</div>
+{%endblock%}
+
+<!--我的帖子-->
+{% block content1%}
+ {%for x in t%}
+<div class="box"> 
+<div class="cell item" style="border-top-left-radius: 3px; border-top-right-radius: 3px;"><div style="position: absolute; margin: -10px -10px 0px 650px;"></div>
+    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tbody><tr>
+           
+            <td width="48" valign="top" align="center"><a href="/member/wumao"><img src="{{MEDIA_URL}}{{x.p.get_photo}}" class="avatar" border="0" align="default"></a></td>
+            <td width="10"></td>
+            
+            <td width="auto" valign="middle"><span class="item_title"><a href="/topic/{{x.id}}">{{x.subject}}</a></span>
+            <div class="sep5"></div>
+            <span class="small fade"><div class="votes"></div><a class="node" href="/go/qna">{{x.category.name}}</a> &nbsp;•&nbsp; <strong><a href="#">{{x.author.username}}</a></strong> &nbsp;•&nbsp; {{x.created|timesince}} &nbsp;•&nbsp; 最后回复来自 <strong><a href="#">{{x.author}}</a></strong></span>
+            </td>
+            <td width="50" align="right" valign="middle">
+                
+                <a href="/t/120351#reply44" class="count_livid">{{x.num_views}}</a>
+				<a href="edit/{{x.id}}">编辑</a>
+				<a href="deletetopic/{{x.id}}">删除</a>
+            </td>
+        </tr>
+    </tbody></table>
+
+</div>
+</div>
+{%endfor%}
+
+{%endblock%}
+
+
+
+
+

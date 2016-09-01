@@ -1,0 +1,254 @@
+<html>
+<title>帐号设置</title>
+<head>
+<meta charset="UTF-8">
+ <link rel="stylesheet" type="text/css" media="screen" href="http://chinaswift.me/static/bootstrap/2.2.0/bootstrap.min.css?ver=2:9">
+ <link rel="stylesheet" type="text/css" media="screen" href="/static/css/v2ex.css">
+ <link rel="stylesheet" type="text/css" media="screen" href="/static/css/uliweb.css">
+ <link rel="stylesheet" type="text/css" media="screen" href="/static/css/djforums.css">
+<script src="/static/js/w3school.js"></script>
+<!------------------------------------------------------------->
+<link rel="stylesheet" href="/static/css/demo_files/main.css" type="text/css" />
+<link rel="stylesheet" href="/static/css/demo_files/demos.css" type="text/css" />
+<link rel="stylesheet" href="/static/css/jquery.Jcrop.css" type="text/css" />
+<style type="text/css">
+
+/* Apply these styles only when #preview-pane has
+   been placed within the Jcrop widget */
+.jcrop-holder #preview-pane {
+  display: block;
+  position: absolute;
+  z-index: 2000;
+  top: 10px;
+  right: -280px;
+  padding: 6px;
+  border: 1px rgba(0,0,0,.4) solid;
+  background-color: white;
+
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+
+  -webkit-box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* The Javascript code will set the aspect ratio of the crop
+   area based on the size of the thumbnail preview,
+   specified here */
+#preview-pane .preview-container {
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+}
+
+</style>
+<!----------------------------------------------------------------->
+</head>
+<!----------------------------------------------------------------------------------------------->
+<script src="/static/js/jquery.Jcrop.js"></script>
+<script type="text/javascript">
+  jQuery(function($){
+
+    // Create variables (in this scope) to hold the API and image size
+    var jcrop_api,
+        boundx,
+        boundy,
+
+        // Grab some information about the preview pane
+        $preview = $('#preview-pane'),
+        $pcnt = $('#preview-pane .preview-container'),
+        $pimg = $('#preview-pane .preview-container img'),
+
+        xsize = $pcnt.width(),
+        ysize = $pcnt.height();
+    
+    $('#target').Jcrop({
+      onChange: updatePreview,
+      onSelect: updatePreview,
+      aspectRatio: xsize / ysize
+    },function(){
+      // Use the API to get the real image size
+      var bounds = this.getBounds();
+      boundx = bounds[0];
+      boundy = bounds[1];
+      // Store the API in the jcrop_api variable
+      jcrop_api = this;
+
+      // Move the preview into the jcrop container for css positioning
+      $preview.appendTo(jcrop_api.ui.holder);
+    });
+
+    function updatePreview(c)
+    {
+      if (parseInt(c.w) > 0)
+      {
+        var rx = xsize / c.w;
+        var ry = ysize / c.h;
+
+        $pimg.css({
+          width: Math.round(rx * boundx) + 'px',
+          height: Math.round(ry * boundy) + 'px',
+          marginLeft: '-' + Math.round(rx * c.x) + 'px',
+          marginTop: '-' + Math.round(ry * c.y) + 'px'
+        });
+      }
+    };
+
+  });
+
+
+</script>
+<!--------------------------------------------------------------------------------------------------->
+<body>
+<div class="content">
+    <div id="Top">
+        <div class="content">
+            <div style="padding-top:6px;padding-right:10px; padding-left:10px;">
+            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tbody><tr>
+                    <!--td width="120" align="left"><a href="/" name="top" title="way to explore"><img src="//cdn.v2ex.com/site/logo@2x.png?m=1346064962" border="0" align="default" alt="V2EX" width="94" height="30"></a></td-->
+					<td style="font-family:微软雅黑; font-size:20px; font-weight:bold; color:gray;padding-bottom: 14; padding-left:5;">Django开发论坛</td>
+                    <td width="auto" align="left">
+                        <div id="Search"><form onsubmit="return dispatch()"><div style="width: 276px; height: 28px; background-size: 276px 28px; background-image: url('http://www.v2ex.com/static/img/qbar_light@2x.png'); background-repeat: no-repeat; display: inline-block;"><input type="text" maxlength="40" name="q" id="q" value=""></div></form></div>
+                    </td>
+                    <td width="320" align="right" style="padding-bottom:10px;"><a href="/" class="top">首页</a>&nbsp;&nbsp;&nbsp;
+						{% if user.is_authenticated %}						
+						<image href="/useradmin" src="{{MEDIA_URL}}{{p.get_photo}}" style="width:48px; height:38px;">&nbsp;&nbsp;&nbsp;<a href="/useradmin" id="showmenu">{{user.username}}</a>&nbsp;&nbsp;&nbsp;<a href="/accounts/logout/?next=/">注销</a> 
+						{% else %}
+						<a id="reg" class="top">注册</a>&nbsp;&nbsp;&nbsp;<a id="log">登录</a>
+						{% endif %}
+					</td>
+					
+						</tr>
+				</tbody>
+			</table>
+            </div>
+        </div>
+    </div>
+
+<div class="sep20"></div>
+<!----------------------------------------------------------------------------------------------------------->
+<div class="box1">
+    <div class="header"><a href="/">Django</a> <span class="chevron">&nbsp;›&nbsp;</span> 帐号设置</div>
+    
+    
+    <div class="inner">
+        <form method="post" action="">
+		{%csrf_token%}
+        <table cellpadding="5" cellspacing="0" border="0" width="50%">
+            <tbody style="width:100px;"><tr>
+                <td width="120" align="right">用户名</td>
+                <td width="auto" align="left">{{user.username}}</td>
+            </tr>
+			<div class="span2 well" style="margin-right:50px;">
+				
+				<a id="modify_photo" class="changeimg" title="点击修改头像"><img src="{{MEDIA_URL}}{{p.get_photo}}" id="photo" class="portrait"></a>
+				<a class="changeimg">单击更改头像</a>
+				
+			</div>
+            <tr>
+                <td width="120" align="right">昵称</td>
+                <td width="auto" align="left"><input type="text" class="sl" name="nick" value="{{p.nick}}" autocomplete="off"></td>
+            </tr>
+            <tr>
+                <td width="120" align="right">邮箱</td>
+                <td width="auto" align="left"><input type="text" class="sl" name="email" value="{{p.email}}" autocomplete="off"></td>
+            </tr>
+            <tr>
+                <td width="120" align="right">QQ</td>
+                <td width="auto" align="left"><input type="text" class="sl" name="qq" value="{{p.qq}}" autocomplete="off"></td>
+            </tr>
+            <tr>
+                <td width="120" align="right"></td>
+                <td width="auto" align="left"><input type="hidden" value="1" name="show_ads"><input type="hidden" value="75448" name="once"><input type="submit" class="super normal button" value="保存设置"/>&nbsp;&nbsp;&nbsp;<a class="super normal button" href="http://www.baidu.com" >修改密码</a></td>
+            </tr>
+        </tbody></table>
+        </form>
+    </div>
+</div>
+<!------------------------------------------------------------------------------------------------------------->      
+
+            
+
+
+
+<div class="backgroundbox" style="display:none;">
+</div>
+<div class="popbox" id="popbox" style="display:none; width:800px; height:600px;left:36%;">
+	<a class="close" id="close">X</a>
+	<div class="box-body">
+    <form action="" id="usermsg" enctype="multipart/form-data" method="POST">
+		{%csrf_token%}
+
+        <input id="field_image" name="photo" type="file">
+        <input id="field_image" name="nick" value="{{p.nick}}" type="hidden">
+        <input id="field_image" name="email" value="{{p.email}}" type="hidden">
+        <input id="field_image" name="qq" value="{{p.qq}}" type="hidden">
+
+		
+        <a id="send" class="btn btn-primary">发送</a>
+    </form>
+	<!---------------------------------------------------------------------------------->
+		  <img src="{{MEDIA_URL}}{{p.get_photo}}" id="target" alt="[Jcrop Example]" />
+
+		  <div id="preview-pane" style="width:120px; height:120px;">
+			<div class="preview-container" style="width:120px; height:120px;">
+			  <img src="{{MEDIA_URL}}{{p.get_photo}}" class="jcrop-preview" alt="Preview" />
+			</div>
+		  </div>
+	<!--------------------------------------------------------------------------------------->
+</div>
+</div>
+
+<div class="popbox" id="popbox1" style="display:none; width:300px; height:200px;">
+	<p>已保存</p>
+	<a class="close" id="close">X</a>
+</div>
+
+</div>
+</body>
+<script>
+$(document).ready(function(){
+	$(".changeimg").click(function(){
+		$(".backgroundbox").show();
+		$("#popbox").show();
+	});
+	
+	$("#close").click(function(){
+		$(".backgroundbox").hide();
+		$("#popbox").hide();
+	});
+});
+<!---------------------------------------------------------------------------------------------------->
+$(document).ready(function(){
+
+	$('#send').click(function(){
+	
+		var fd = new FormData(document.getElementById("usermsg"));
+
+			$.ajax({
+				url: "/useradmin/updatephoto",
+				type: "POST",
+				data: fd,
+				enctype: 'multipart/form-data',
+				processData: false,  // tell jQuery not to process the data
+				contentType: false   // tell jQuery not to set contentType
+            }).done(function( data ) {
+                alert("Output:");
+                alert( data );
+            }).error(function( data ) {
+                alert("Output:");
+                alert( data );
+            });
+			
+	});	
+	
+	$("#close1").click(function(){
+		$("#LOG").hide();
+		$("#LOG1").hide();
+	});
+});
+</script>
+</html>

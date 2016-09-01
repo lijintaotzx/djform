@@ -1,0 +1,93 @@
+<head>
+<meta charset="UTF-8">
+ <link rel="stylesheet" type="text/css" media="screen" href="http://v2ex.com/css/shared.css?v=3.3.2">
+ <link rel="stylesheet" type="text/css" media="screen" href="http://uliweb.cpython.org/static/bootstrap/2.2.0/bootstrap.min.css?ver=2:9">
+ <link rel="stylesheet" type="text/css" media="screen" href="/static/css/djforums.css">
+ <!--link rel="stylesheet" type="text/css" media="screen" href="/static/css/animate.css"-->
+ <link href="http://www.jeapedu.com/statics/images/animate.css" rel="stylesheet" type="text/css">
+
+ <!--script src="http://www.w3school.com.cn/jquery/jquery-1.11.1.min.js"></script-->
+ <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+ <script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+  <link rel="stylesheet" href="http://daneden.github.io/animate.css/animate.min.css" />
+<!--tinymce-->
+<script type="text/javascript" src="http://www.chinagame.me/static/tinymce/js/tinymce/jquery.tinymce.min.js"></script>
+<script type="text/javascript" src="http://www.chinagame.me/static/tinymce/js/tinymce/tinymce.min.js"></script>
+<script>
+function loadtinymce()
+{
+        tinymce.init({
+    selector: "textarea",
+    theme: "modern",
+    plugins: [
+        "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+        "searchreplace wordcount visualblocks visualchars code fullscreen",
+        "insertdatetime media nonbreaking save table contextmenu directionality",
+        "emoticons template paste textcolor"
+    ],
+    toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+    toolbar2: "print preview media | forecolor backcolor emoticons",
+        });
+}
+$(document).ready(function(){
+        loadtinymce();
+});
+</script>
+
+</head>
+<body>
+<div class="content">
+    <div id="Top">
+        <div class="content">
+            <div style="padding-top:6px;padding-right:10px; padding-left:10px;">
+            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tbody><tr>
+                    <!--td width="120" align="left"><a href="/" name="top" title="way to explore"><img src="//cdn.v2ex.com/site/logo@2x.png?m=1346064962" border="0" align="default" alt="V2EX" width="94" height="30"></a></td-->
+					<td style="font-family:微软雅黑; font-size:20px; font-weight:bold; color:gray;padding-bottom: 14; padding-left:5;">Django开发论坛</td>
+                    <td width="auto" align="left">
+                        <div id="Search"><form onsubmit="return dispatch()"><div style="width: 276px; height: 28px; background-size: 276px 28px; background-image: url('http://www.v2ex.com/static/img/qbar_light@2x.png'); background-repeat: no-repeat; display: inline-block;"><input type="text" maxlength="40" name="q" id="q" value=""></div></form></div>
+                    </td>
+                    <td width="320" align="right" style="padding-bottom:10px;"><a href="/" class="top">首页</a>&nbsp;&nbsp;&nbsp;
+						{% if user.is_authenticated %}						
+						<image href="/useradmin" src="{{MEDIA_URL}}{{a.get_photo}}" style="width:48px; height:38px;">&nbsp;&nbsp;&nbsp;<a href="/useradmin" id="showmenu">{{user.username}}</a>&nbsp;&nbsp;&nbsp;<a href="/accounts/logout/?next=/">注销</a> 
+						{% else %}
+						<a id="reg" class="top">注册</a>&nbsp;&nbsp;&nbsp;<a id="log">登录</a>
+						{% endif %}
+					</td>
+					
+						</tr>
+				</tbody>
+			</table>
+            </div>
+        </div>
+    </div>
+<div class="box1">
+    <div class="header"><a href="/">Django</a>&nbsp;›&nbsp; <span>修改主题</span>
+    
+    
+    <div class="cell">
+		<form action="" method="POST">
+		{%csrf_token%}
+		<input name="subject" style="width:540px;" name="subject" value="{{n.subject}}" />
+		<textarea style="height:410px;" name="content">{{n.content}}</textarea>		<!--编辑框-->
+		<button name="submit" class="btn">发送</button>
+		</form>
+    </div>
+    
+    <div class="inner">
+        <h2>主题创建指南</h2>
+        <h3>信息量 &nbsp; <span class="fade">Make Sense</span></h3>
+        为了让大家在 V2EX 上的时间更有效率，请在创建主题时考虑：
+        <ul>
+            <li>提问型主题：请用准确的语言描述你遇到的问题，如果问题足够在标题中写完，那么正文是不用填写的，在正文中写 RT 是完全没有必要的。<div class="sep10"></div></li>
+            <li>分享型主题：欢迎你在这里分享你在网上看到的有趣事物，因为 V2EX 是一个主要关于编程和设计的社区，所以这类技术话题在 V2EX 大家会更感兴趣。请不要在 V2EX 分享社会新闻。<div class="sep10"></div></li>
+            <li>作品发布型专题：非常欢迎你在这里发布自己的新作品，我们大家都非常乐意去尝试你的新作。需要注意的是，发布作品请在 <a href="/go/create" target="_blank">分享创造</a> 节点，而非其他节点。<div class="sep10"></div></li>
+            <li>具体技术讨论：请为你的话题选择一个合适的节点，V2EX 为大部分编程语言、数据库、框架、操作系统都建立了专门的节点，访问方式是在 URL 中直接输入 /go/nodename</li>
+        </ul>
+        <div class="sep20"></div>
+        <h3>一个友好的社区 &nbsp; <span class="fade">Be Nice to the Community</span></h3>
+        我们希望 V2EX 能够成为中文世界中氛围最好的社区，而实现这个目标，需要我们所有人的共同努力：友善，公平，尊重知识和事实。
+    </div>
+</div>
+</div>
+</body>

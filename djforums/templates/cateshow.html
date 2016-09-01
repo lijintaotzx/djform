@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{%block title%}{{cate.name}}{%endblock%}
+{% block content%}
+<div class="inner">
+<a style="font-size:18px;"href="/">Djforum</a><span class="chevron">&nbsp;›&nbsp;</span><a style="font-size:16px;">{{cate.name}}</a><button class="btn" id="newtopic" style='float:right;font-size:15px;'>发帖</button>	
+</div>
+
+<!--发帖盒子-->
+	<div class="backgroundbox" id="fatie" style="display:none;">
+	</div>
+	<div class="popbox" id="fatie1" style="display:none;width:800px;height:600px;padding:10px;top: 40%;left: 40%;">
+	<a class="close" id="close">X</a>
+	
+		<form action="/topic/{{cate.id}}/addtopic" method="POST">
+		{%csrf_token%}
+		<input name="subject" style="width:540px;" name="subject" placeholder="请输入主题"/>
+		<textarea style="height:410px;" name="content"></textarea>		<!--编辑框-->
+		<button name="submit" class="btn">发送</button>
+		</form>
+	</div>
+{%endblock%}
+<!-------------------------------------------------------------------------------------------------------->
+
+<!----------------------------------------------------------------------------------------------------------->
+<!--帖子显示-->
+{% block content1%}
+	
+ {%for t in topics%}
+<div class="box"> 
+<div class="cell item" style="border-top-left-radius: 3px; border-top-right-radius: 3px;"><div style="position: absolute; margin: -10px -10px 0px 650px;"></div>
+    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tbody><tr>
+           
+            <td width="48" valign="top" align="center"><a href="/member/wumao"><img src="{{MEDIA_URL}}{{t.p.get_photo}}" class="avatar" border="0" align="default"></a></td>
+            <td width="10"></td>
+            
+            <td width="auto" valign="middle"><span class="item_title"><a href="/topic/{{t.id}}">{{t.subject}}</a></span>
+            <div class="sep5"></div>
+            <span class="small fade"><div class="votes"></div><a class="node" href="/go/qna">{{t.category.name}}</a> &nbsp;•&nbsp; <strong><a href="#">{{t.author.username}}</a></strong> &nbsp;•&nbsp; {{t.created|timesince}} &nbsp;•&nbsp; 最后回复来自 <strong><a href="#">{{t.author}}</a></strong></span>
+            </td>
+            <td width="50" align="right" valign="middle">
+                
+                <a href="/t/120351#reply44" class="count_livid">{{t.num_views}}</a>
+                
+            </td>
+        </tr>
+    </tbody></table>
+</div>
+</div>
+{%endfor%}
+
+{%endblock%}
+<!--发帖盒子-->
+{% block content2%}
+$(document).ready(function(){
+	$("#newtopic").click(function(){
+		$("#fatie").show();
+		$("#fatie1").show();
+	});
+	
+	$("#close").click(function(){
+		$("#fatie").hide();
+		$("#fatie1").hide();		
+	});
+	
+
+	});
+{%endblock%}
+
+
+
+
